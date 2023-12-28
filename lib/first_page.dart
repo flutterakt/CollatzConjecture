@@ -15,8 +15,8 @@ class _FirstPageState extends State<FirstPage> {
   late TextEditingController _controller;
   late List<int>? resultLastValue = [];
   late List<int>? inText = [];
-  bool isSumOfValueShow = false;
   String informationText = '';
+  bool enableButton = true;
 
   @override
   void initState() {
@@ -76,7 +76,7 @@ class _FirstPageState extends State<FirstPage> {
                           onPressed: () async {
                             try {
                               setState(() {
-                                isSumOfValueShow = true;
+                                enableButton = false;
                                 final List<int>? resultLastValue =
                                     Calculate().produce(_controller);
                                 inText = resultLastValue;
@@ -118,6 +118,7 @@ class _FirstPageState extends State<FirstPage> {
                               foregroundColor: HexColor(appbarBackgroundColor)),
                           onPressed: () {
                             setState(() {
+                              enableButton = true;
                               _controller = TextEditingController()..text = '';
                               inText = [];
                               clickonInformation =
@@ -162,53 +163,49 @@ class _FirstPageState extends State<FirstPage> {
                   },
                 ),
               ),
-              const InformationButton()
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: HexColor(firstPageTextColor),
+                    foregroundColor: HexColor(appbarBackgroundColor)),
+                onPressed: () {
+                  enableButton == true
+                      ? showModalBottomSheet(
+                          backgroundColor: HexColor(firstPageBackGroundColor),
+                          context: context,
+                          builder: (context) {
+                            return SizedBox(
+                                height: 450,
+                                child: Column(children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Text(collatzInformation,
+                                        style: TextStyle(
+                                            color:
+                                                HexColor(appbarBackgroundColor),
+                                            fontSize:
+                                                firstPageTextXMiniFontSize)),
+                                  ),
+                                  ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              HexColor(firstPageTextColor),
+                                          foregroundColor:
+                                              HexColor(appbarBackgroundColor)),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Close'))
+                                ]));
+                          })
+                      : null;
+                },
+                child: Text(clickonInformation,
+                    style: TextStyle(
+                        color: HexColor(appbarBackgroundColor),
+                        fontSize: firstPageTextXMiniFontSize)),
+              ),
             ],
           ))),
     );
-  }
-}
-
-class InformationButton extends StatelessWidget {
-  const InformationButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-            backgroundColor: HexColor(firstPageTextColor),
-            foregroundColor: HexColor(appbarBackgroundColor)),
-        onPressed: () {
-          showModalBottomSheet(
-              backgroundColor: HexColor(firstPageBackGroundColor),
-              context: context,
-              builder: (context) {
-                return SizedBox(
-                    height: 450,
-                    child: Column(children: [
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Text(collatzInformation,
-                            style: TextStyle(
-                                color: HexColor(appbarBackgroundColor),
-                                fontSize: firstPageTextXMiniFontSize)),
-                      ),
-                      ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: HexColor(firstPageTextColor),
-                              foregroundColor: HexColor(appbarBackgroundColor)),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text('Close'))
-                    ]));
-              });
-        },
-        child: Text(clickonInformation,
-            style: TextStyle(
-                color: HexColor(appbarBackgroundColor),
-                fontSize: firstPageTextXMiniFontSize)));
   }
 }

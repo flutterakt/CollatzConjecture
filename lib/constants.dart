@@ -9,7 +9,8 @@ const double sizeboxWidth = 300;
 const double cardElevationHeight = 10;
 const double cardElevationMarginVertical = 10;
 const String firstPageText = 'Please Enter a Natural Number';
-const String warningTextField = 'Please Enter a Natural Number!';
+const String warningTextField =
+    'Please enter a natural number with up to 17 digits.!';
 
 const String firstPageTextColor = 'EE7214';
 const double firstPageTextFontSize = 25;
